@@ -36,10 +36,10 @@ export default function DarkModeSwitch(){
     }
 
     return(
-        <div onClick={toggleSwitch} className={`flex-start flex h-[50px] w-[100px] rounded-[50px] bg-zinc-100 p-[5px] shadow-inner hover:cursor-pointer dark:bg-zinc-700 ${ isOn && 'place-content-end'}`}>
+        <div onClick={toggleSwitch} className={`flex-start flex h-[50px] w-[100px] rounded-[50px] bg-gray-200 p-[5px] shadow-inner hover:cursor-pointer dark:bg-zinc-700 ${ isOn && 'place-content-end'}`}>
 
             <motion.div
-                className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-black/90"
+                className="flex h-[40px] w-[40px] items-center justify-center rounded-full dark:bg-black/90 bg-white"
                 layout
                 transition={spring}
             >
