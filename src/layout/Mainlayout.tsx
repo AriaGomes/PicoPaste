@@ -1,10 +1,10 @@
-import { NavBar } from "./NavBar"
+import { NavBar } from "./NavBar";
 
 export const MainLayout = (props: any) => {
-    return(
-    <div className="dark:bg-tb h-screen">
-        <NavBar />
-        {props.children}
+  return (
+    <div className="h-screen dark:bg-tb">
+      <NavBar />
+      {props.children}
     </div>
-    )
-}
+  );
+};
