@@ -7,8 +7,8 @@ let pasteSchema = new mongoose.Schema({
   paste: String,
   options: {
     isCode: Boolean,
-    lineNumbers: Boolean
-  }
+    lineNumbers: Boolean,
+  },
   //More stuff like options of paste (Syntax highlighting, etc)
 });
 
@@ -75,9 +75,9 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
           let paste = new Paste({
             paste: req.body.paste,
             options: {
-                isCode: req.body.options.isCode,
-                lineNumbers: req.body.options.lineNumbers
-            }
+              isCode: req.body.options.isCode,
+              lineNumbers: req.body.options.lineNumbers,
+            },
           });
 
           paste.save((error, data) => {

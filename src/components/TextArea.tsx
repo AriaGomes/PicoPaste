@@ -211,7 +211,7 @@ export const TextArea = (props: any) => {
       <div className="rounded-b-lg bg-white px-4 py-2 dark:bg-gray-800">
         <textarea
           id="editor"
-          className="block w-full border-0 bg-white px-0 text-sm text-gray-800 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 min-h-[50px] max-h-[70vh]"
+          className="block max-h-[70vh] min-h-[50px] w-full border-0 bg-white px-0 text-sm text-gray-800 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
           placeholder="Paste your paste..."
           required
         ></textarea>
