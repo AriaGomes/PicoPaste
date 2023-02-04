@@ -133,3 +133,4 @@ backend/config.json
 
 
 config.env
+yarn.lock
