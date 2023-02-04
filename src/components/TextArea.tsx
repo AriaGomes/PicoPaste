@@ -1,5 +1,4 @@
-export const TextArea = (props:any) => {
-    console.log(props)
+export const TextArea = (props: any) => {
   return (
     <div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
       <div className="flex items-center justify-between border-b px-3 py-2 dark:border-gray-600">

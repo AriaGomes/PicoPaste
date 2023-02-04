@@ -16,7 +16,6 @@ recordRoutes.route("/status").get(function (req, res) {
       useNewUrlParser: true,
     })
     .then(() => {
-      console.log("Connected to mongo");
       res.send("Connected to mongo");
     })
     .catch(async (err) => {
@@ -24,8 +23,6 @@ recordRoutes.route("/status").get(function (req, res) {
       res.send("Issue trying to connect to mongo");
     });
 });
-
-
 
 // This section will help you get a single record by id
 recordRoutes.route("/pastes/:id").get(function (req, res) {
@@ -38,20 +35,17 @@ recordRoutes.route("/pastes/:id").get(function (req, res) {
     })
     .then(() => {
       if (req.params.id.length !== 24) {
-        res.send("Invalid ID");
-        return console.log("ID given is not valid");
+        return res.send("Invalid ID");
       }
 
       Paste.find({ _id: req.params.id }, async function (err, pasteFound) {
         if (err) return console.log(err);
 
         if (pasteFound.length > 0) {
-          console.log("found");
-          res.send("Found: " + pasteFound[0]);
+          res.send(JSON.stringify(pasteFound[0]));
           //return pasteFound instead of creating a new one
         } else {
-          console.log("not found");
-          res.send("Not found");
+          res.status(404).send("Not Found");
         }
       });
     })
@@ -71,7 +65,7 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
 
         if (pasteFound.length > 0) {
           console.log("exists");
-          res.send("Already Exists: " + pasteFound[0]);
+          res.send(JSON.stringify(pasteFound[0]));
           //return pasteFound instead of creating a new one
         } else {
           let paste = new Paste({
@@ -84,7 +78,7 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
               return console.log(error);
             }
             console.log(data);
-            res.send("Created: " + data);
+            res.send(JSON.stringify(data));
           });
         }
       });

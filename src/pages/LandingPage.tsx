@@ -1,13 +1,8 @@
 import { DefaultButton, TextArea } from "../components";
 import axios from "axios";
-import { useState } from "react";
-
-
 
 export const LandingPage = () => {
-
-    const [paste, setPaste] = useState("")
-
+    console.log(document.location)
   return (
     <>
       <div>
@@ -17,29 +12,28 @@ export const LandingPage = () => {
         </center>
       </div>
       <div className="p-4 pt-20">
-        <TextArea  {...setPaste} paste/>
-        <DefaultButton onClick={submitPaste}>Submit Paste</DefaultButton>
+        <TextArea />
+        <DefaultButton onClick={SubmitPaste}>Submit Paste</DefaultButton>
       </div>
     </>
   );
-  
-  
 };
 
+const SubmitPaste = () => {
+  //@ts-ignore
+  let paste: any = document.getElementById("editor")?.value;
 
-const submitPaste = () => {
-    //@ts-ignore
-    let paste : any = document.getElementById("editor")?.value
+  if (!paste) return console.log("Error getting text from the text area");
 
-    if(!paste) return(console.log("Error getting text from the text area"))
-
-    axios.post(`http://localhost:${process.env.PORT || 5000}/pastes/add`, {
-        paste: paste
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  axios
+    .post(`${document.location.protocol}//${ document.location.hostname || "localhost"}:${process.env.PORT || 5000}/pastes/add`, {
+      paste: paste,
+    })
+    .then(function (response) {
+      console.log(response.data._id);
+      document.location.href = `${document.location.href}pastes/${response.data._id}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 };
