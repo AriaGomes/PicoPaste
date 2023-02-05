@@ -47,7 +47,6 @@ recordRoutes.route("/pastes/:id").get(function (req, res) {
 
         if (pasteFound.length > 0) {
           res.send(JSON.stringify(pasteFound[0]));
-          //return pasteFound instead of creating a new one
         } else {
           res.status(404).send("Not Found");
         }
@@ -64,19 +63,18 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
     })
     .then(() => {
       console.log("Connected to mongo");
-      Paste.find({ paste: req.body.paste }, async function (err, pasteFound) {
+      Paste.find({ paste: req.body.paste, options: req.body.options }, async function (err, pasteFound) {
         if (err) return console.log(err);
 
         if (pasteFound.length > 0) {
-          console.log("exists");
           res.send(JSON.stringify(pasteFound[0]));
           //return pasteFound instead of creating a new one
         } else {
           let paste = new Paste({
             paste: req.body.paste,
             options: {
-              isCode: req.body.options.isCode,
-              lineNumbers: req.body.options.lineNumbers,
+              isCode: req.body.options?.isCode,
+              lineNumbers: req.body.options?.lineNumbers,
             },
           });
 
