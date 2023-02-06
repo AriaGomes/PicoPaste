@@ -13,12 +13,11 @@ export const Pastes = (props: any) => {
   let [paste, setPaste] = useState("");
   let [code, setCode] = useState(false);
   let [line, setLine] = useState(false);
-  //let [theme, setTheme] = useState(props.isDark ? atomOneDarkReasonable : vs)
 
   axios
     .get(
       `${document.location.protocol}//${
-        document.location.hostname || "localhost"
+        process.env.HOST || "localhost"
       }:${
         process.env.PORT || 5000
       }/pastes/${document.location.pathname.substring(8)}`
@@ -27,7 +26,6 @@ export const Pastes = (props: any) => {
       setPaste(response.data.paste);
       setCode(response.data.options.isCode);
       setLine(response.data.options.lineNumbers);
-      console.log(response.data._id);
     })
     .catch(function (error) {
       console.log(error);
@@ -40,37 +38,60 @@ export const Pastes = (props: any) => {
   };
 
   const handleCopyText = () => {
-    //navigator.clipboard.writeText(document.getElementById("a")?.value);
+   navigator.clipboard.writeText(paste) 
   };
 
-  const handleDownloadText = () => {};
+  const handleDownloadText = () => {
+    const file = new Blob([paste], {
+      type: "text/plain"
+    });
+
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(file);
+    element.download = document.location.pathname.substring(8) + '.txt';
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const handleRawText = () => {
+    document.location = `${document.location.protocol}//${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}/pastes/raw/${document.location.pathname.substring(8)}`
+  }
 
   return (
     <div className="p-4">
       <div className="text-wrap">
         {code ? (
-          line ? (
+          
             <Card>
               <div className="flex items-center justify-between border-b px-3 py-2 dark:border-gray-600">
+                <div>
                 <button
                   onClick={handleCopyText}
                   className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   <CopyCliboard className="h-5 w-5 dark:fill-white" />
                 </button>
-
+                </div>
+                <div>
+                <button
+                  onClick={handleRawText}
+                  className="cursor-pointer rounded p-2 top text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <p className="dark:text-white text-black text-sm -translate-y-0.5 h-4 p-1 mb-1">RAW</p>
+                </button>
                 <button
                   onClick={handleDownloadText}
                   className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   <BsDownload className="h-5 w-5 dark:fill-white" />
                 </button>
+                </div>
               </div>
 
               <Suspense fallback={<div>Loading...</div>}>
                 <SyntaxHighlighter
                   wrapLongLines
-                  showLineNumbers
+                  showLineNumbers={line}
                   customStyle={style}
                   style={props.isDark ? atomOneDarkReasonable : vs}
                 >
@@ -78,48 +99,39 @@ export const Pastes = (props: any) => {
                 </SyntaxHighlighter>
               </Suspense>
             </Card>
-          ) : (
-            <Card>
-              <div className="flex items-center justify-between border-b px-3 py-2 dark:border-gray-600">
-                <button className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                  <CopyCliboard className="h-5 w-5 dark:fill-white" />
-                </button>
-
-                <button className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                  <BsDownload className="h-5 w-5 dark:fill-white" />
-                </button>
-              </div>
-              <Suspense fallback={<div>Loading...</div>}>
-                <SyntaxHighlighter
-                  wrapLongLines
-                  customStyle={style}
-                  style={props.isDark ? atomOneDarkReasonable : vs}
-                >
-                  {paste}
-                </SyntaxHighlighter>
-              </Suspense>
-            </Card>
-          )
         ) : (
           <Card className>
             <div className="flex items-center justify-between border-b px-3 py-2 dark:border-gray-600">
-              <button className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                <CopyCliboard className="h-5 w-5 dark:fill-white" />
-              </button>
-
-              <button className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                <BsDownload className="h-5 w-5 dark:fill-white" />
-              </button>
-            </div>
+                <div>
+                <button
+                  onClick={handleCopyText}
+                  className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <CopyCliboard className="h-5 w-5 dark:fill-white" />
+                </button>
+                </div>
+                <div>
+                <button
+                  onClick={handleRawText}
+                  className="cursor-pointer rounded p-2 top text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <p className="dark:text-white text-black text-sm -translate-y-0.5 h-4 p-1 mb-1">RAW</p>
+                </button>
+                <button
+                  onClick={handleDownloadText}
+                  className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <BsDownload className="h-5 w-5 dark:fill-white" />
+                </button>
+                </div>
+              </div>
             <Suspense fallback={<div>Loading...</div>}>
               <pre className="p-4">
-                <p className="dark:text-white">{paste}</p>
+                <p className="dark:text-white" id="copyme">{paste}</p>
               </pre>
             </Suspense>
           </Card>
         )}
-
-        {/* <DefaultButton onClick={() => console.log(props.isOn)}>test</DefaultButton> */}
       </div>
     </div>
   );
