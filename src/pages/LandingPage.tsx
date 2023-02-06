@@ -1,12 +1,13 @@
 import { DefaultButton, TextArea } from "../components";
 import axios from "axios";
-import { Card, ToggleSwitch } from "flowbite-react";
+import { Card } from "flowbite-react";
 import { DefaultToggle } from "../components/DefaultToggle";
 import { useState } from "react";
 
-export const LandingPage = () => {
+export const LandingPage = (props: any) => {
   const [codeToggle, setCodeToggle] = useState(false);
   const [lineToggle, setLineToggle] = useState(false);
+  
 
   const SubmitPaste = () => {
     //@ts-ignore
@@ -51,7 +52,7 @@ export const LandingPage = () => {
         </center>
       </div>
       <div className="p-4 pt-20">
-        <TextArea />
+        <TextArea setIsDark={props.setIsDark} isDark={props.isDark}/>
         <div className="flex place-content-between ">
           <Card>
             <div className="flex flex-col gap-4">
@@ -60,6 +61,7 @@ export const LandingPage = () => {
                   setCodeToggle(!codeToggle);
                 }}
                 id="code"
+                toggled={true}
               >
                 {" "}
                 Code{" "}
@@ -70,6 +72,7 @@ export const LandingPage = () => {
                 }}
                 checked={codeToggle && !lineToggle && null}
                 id="line"
+                toggled={codeToggle}
               >
                 {" "}
                 Line Numbers{" "}

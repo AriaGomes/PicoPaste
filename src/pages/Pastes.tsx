@@ -1,17 +1,17 @@
 import axios from "axios";
 import { Suspense, useState } from "react";
-import { Card, DefaultButton } from "../components";
+import { Card } from "../components";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
   vs,
   atomOneDarkReasonable,
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { Spinner } from "flowbite-react";
 
 export const Pastes = (props: any) => {
   let [paste, setPaste] = useState("");
   let [code, setCode] = useState(false);
   let [line, setLine] = useState(false);
+  //let [theme, setTheme] = useState(props.isDark ? atomOneDarkReasonable : vs)
 
   axios
     .get(
@@ -37,6 +37,7 @@ export const Pastes = (props: any) => {
     maxHeight: "80vh",
   };
 
+  
   return (
     <div className="p-4">
       <div className="text-wrap">
@@ -48,7 +49,7 @@ export const Pastes = (props: any) => {
                   wrapLongLines
                   showLineNumbers
                   customStyle={style}
-                  style={vs}
+                  style={props.isDark ? atomOneDarkReasonable : vs}
                 >
                   {paste}
                 </SyntaxHighlighter>
@@ -57,7 +58,7 @@ export const Pastes = (props: any) => {
           ) : (
             <Card>
               <Suspense fallback={<div>Loading...</div>}>
-                <SyntaxHighlighter wrapLongLines customStyle={style} style={vs}>
+                <SyntaxHighlighter wrapLongLines customStyle={style} style={props.isDark ? atomOneDarkReasonable : vs} >
                   {paste}
                 </SyntaxHighlighter>
               </Suspense>
@@ -66,7 +67,9 @@ export const Pastes = (props: any) => {
         ) : (
           <Card>
             <Suspense fallback={<div>Loading...</div>}>
+                <pre>
               <p className="dark:text-white">{paste}</p>
+              </pre>
             </Suspense>
           </Card>
         )}

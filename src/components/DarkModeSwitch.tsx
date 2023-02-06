@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { RiMoonClearFill, RiSunFill } from "react-icons/ri";
 
-export default function DarkModeSwitch() {
+export const DarkModeSwitch = (props:any) => {
   const [isOn, setIsOn] = useState(() => {
     if (localStorage.getItem("theme") === "dark") {
       return false;
@@ -11,7 +11,7 @@ export default function DarkModeSwitch() {
     }
   });
 
-  const toggleSwitch = () => setIsOn(!isOn);
+  const toggleSwitch = () => {setIsOn(!isOn); props.setIsDark(!isOn) };
 
   const spring = {
     type: "spring",
