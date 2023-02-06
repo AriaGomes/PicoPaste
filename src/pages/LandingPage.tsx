@@ -32,7 +32,6 @@ export const LandingPage = (props: any) => {
         }
       )
       .then(function (response) {
-        console.log(response.data._id);
         document.location.href = `${document.location.href}pastes/${response.data._id}`;
       })
       .catch(function (error) {

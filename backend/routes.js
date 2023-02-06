@@ -34,7 +34,6 @@ recordRoutes.route("/status").get(function (req, res) {
 recordRoutes.route("/pastes/:id").get(function (req, res) {
   // Serve paste by id
 
-  console.log(req.params.id);
   mongoose
     .connect(process.env.MONGO, {
       useNewUrlParser: true,
@@ -57,6 +56,30 @@ recordRoutes.route("/pastes/:id").get(function (req, res) {
     .catch((err) => console.log(err.message));
 });
 
+recordRoutes.route("/pastes/raw/:id").get(function (req, res) {
+  // Serve paste by id
+  mongoose
+    .connect(process.env.MONGO, {
+      useNewUrlParser: true,
+    })
+    .then(() => {
+      if (req.params.id.length !== 24) {
+        return res.send("Invalid ID");
+      }
+
+      Paste.find({ _id: req.params.id }, async function (err, pasteFound) {
+        if (err) return console.log(err);
+
+        if (pasteFound.length > 0) {
+          res.send(pasteFound[0].paste);
+        } else {
+          res.status(404).send("Not Found");
+        }
+      });
+    })
+    .catch((err) => console.log(err.message));
+});
+
 // // This section will help you create a new record.
 recordRoutes.route("/pastes/add").post(function (req, res) {
   mongoose
@@ -64,7 +87,6 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
       useNewUrlParser: true,
     })
     .then(() => {
-      console.log("Connected to mongo");
       Paste.find(
         { paste: req.body.paste, options: req.body.options },
         async function (err, pasteFound) {

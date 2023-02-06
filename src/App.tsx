@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MainLayout } from "./layout";
-import { LandingPage, NotFound, Pastes } from "./pages/";
+import { LandingPage, NotFound, Pastes, Raw } from "./pages/";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -26,6 +26,12 @@ function App() {
             <MainLayout setIsDark={setIsDark} isDark={isDark}>
               <Pastes setIsDark={setIsDark} isDark={isDark} />
             </MainLayout>
+          }
+        />
+        <Route
+          path="/pastes/raw/:id"
+          element={
+            <Raw />
           }
         />
         <Route
