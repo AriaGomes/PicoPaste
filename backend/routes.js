@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 //Schemas
 let pasteSchema = new mongoose.Schema({
   paste: String,
+  ip: String,
+  useragent: String,
   options: {
     isCode: Boolean,
     lineNumbers: Boolean,
@@ -63,31 +65,36 @@ recordRoutes.route("/pastes/add").post(function (req, res) {
     })
     .then(() => {
       console.log("Connected to mongo");
-      Paste.find({ paste: req.body.paste, options: req.body.options }, async function (err, pasteFound) {
-        if (err) return console.log(err);
+      Paste.find(
+        { paste: req.body.paste, options: req.body.options },
+        async function (err, pasteFound) {
+          if (err) return console.log(err);
 
-        if (pasteFound.length > 0) {
-          res.send(JSON.stringify(pasteFound[0]));
-          //return pasteFound instead of creating a new one
-        } else {
-          let paste = new Paste({
-            paste: req.body.paste,
-            options: {
-              isCode: req.body.options?.isCode,
-              lineNumbers: req.body.options?.lineNumbers,
-            },
-          });
+          if (pasteFound.length > 0) {
+            res.send(JSON.stringify(pasteFound[0]));
+            //return pasteFound instead of creating a new one
+          } else {
+            let paste = new Paste({
+              useragent: req.get("user-agent"),
+              ip: req.ip,
+              paste: req.body.paste,
+              options: {
+                isCode: req.body.options?.isCode,
+                lineNumbers: req.body.options?.lineNumbers,
+              },
+            });
 
-          paste.save((error, data) => {
-            if (error) {
-              res.send("Error: " + error);
-              return console.log(error);
-            }
-            console.log(data);
-            res.send(JSON.stringify(data));
-          });
+            paste.save((error, data) => {
+              if (error) {
+                res.send("Error: " + error);
+                return console.log(error);
+              }
+              console.log(data);
+              res.send(JSON.stringify(data));
+            });
+          }
         }
-      });
+      );
     })
     .catch((err) => console.log(err.message));
 });

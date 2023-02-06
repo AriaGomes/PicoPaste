@@ -4,8 +4,9 @@ import { LandingPage, NotFound, Pastes } from "./pages/";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark")
-  console.log(isDark)
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
   return (
     //Routes
     <BrowserRouter>
@@ -23,7 +24,7 @@ function App() {
           path="/pastes/:id"
           element={
             <MainLayout setIsDark={setIsDark} isDark={isDark}>
-              <Pastes setIsDark={setIsDark} isDark={isDark}/>
+              <Pastes setIsDark={setIsDark} isDark={isDark} />
             </MainLayout>
           }
         />

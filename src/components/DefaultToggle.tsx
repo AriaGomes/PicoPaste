@@ -12,10 +12,14 @@ export const DefaultToggle = (props: any) => {
       />
       <div
         className={`peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:border-gray-600 dark:bg-gray-700 ${
-          props.toggled ? "" : "after:bg-gray-300 after:border-gray-300"
+          props.toggled ? "" : "after:border-gray-300 after:bg-gray-300"
         }`}
       ></div>
-      <span className={`ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 ${props.toggled ? '' : "dark:text-gray-600 text-gray-300"}`}>
+      <span
+        className={`ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 ${
+          props.toggled ? "" : "text-gray-300 dark:text-gray-600"
+        }`}
+      >
         {props.children}
       </span>
     </label>

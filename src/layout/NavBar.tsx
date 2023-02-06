@@ -1,16 +1,17 @@
-import {DarkModeSwitch} from "../components/DarkModeSwitch";
+import { DarkModeSwitch } from "../components/DarkModeSwitch";
+import { Clipboard } from "../assets/Clipboard";
 
-export const NavBar = (props:any) => {
+export const NavBar = (props: any) => {
   return (
-    <div className="flex place-content-between p-[20px] dark:bg-tb">
+    <div className="flex place-content-between p-[20px] dark:bg-black">
       <div>
         <a href="/">
-          <img className="dark:text-white" alt="logo home button"></img>{" "}
+          <Clipboard className="h-10 fill-black dark:fill-white"></Clipboard>
         </a>
       </div>
 
       <div>
-        <DarkModeSwitch setIsDark={props.setIsDark} isDark={props.isDark}/>
+        <DarkModeSwitch setIsDark={props.setIsDark} isDark={props.isDark} />
       </div>
     </div>
   );

@@ -5,10 +5,7 @@ module.exports = {
   lightMode: "class",
   theme: {
     extend: {},
-    colors: {
-      tb: "#000",
-      tw: "#FFF",
-    },
+    colors: {},
   },
   plugins: [require("flowbite/plugin")],
 };

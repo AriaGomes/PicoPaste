@@ -1,59 +1,53 @@
 import { useRef, useState } from "react";
-import {EmojiPickerPopout} from "./EmojiPickerPopout";
-import {Dropzone} from "./Dropzone";
+import { EmojiPickerPopout } from "./EmojiPickerPopout";
+import { Dropzone } from "./Dropzone";
 import { BsFillTrashFill } from "react-icons/bs";
 
-
-
 export const TextArea = (props: any) => {
-  const [fullscreen, setFullscreen] = useState(false)
-  const [emojiPopout, setEmojiPopout] = useState<Boolean>(false)
-  const [text, setText] = useState("")
+  const [fullscreen, setFullscreen] = useState(false);
+  const [emojiPopout, setEmojiPopout] = useState<Boolean>(false);
+  const [text, setText] = useState("");
   const [files, setFiles] = useState(); // For testing (makes list)
   const inputRef = useRef<HTMLInputElement | null>(null);
-  let reader: FileReader 
+  let reader: FileReader;
 
   const handleFileRead = (e: any) => {
     let content = reader.result;
-    console.log(content)
-    if(!content) return // only uploads one file for now as was getting errors stops null and undefined from being printed
+    console.log(content);
+    if (!content) return; // only uploads one file for now as was getting errors stops null and undefined from being printed
     // @ts-ignore
-    setText(text + content)
+    setText(text + content);
   };
- 
+
   const handleFileChosen = (file: Blob) => {
     reader = new FileReader();
     reader.onloadend = handleFileRead;
     reader.readAsText(file);
   };
-  
+
   const handleFileChange = (e: any) => {
     if (e.hasOwnProperty("target")) {
       e = [...e.target.files];
     }
 
- 
-    
-  //setFiles(e.map((file:any) => <li key={file.name}>{file.name}</li>));
-  
-  // Fill textarea with file(s) contents
+    //setFiles(e.map((file:any) => <li key={file.name}>{file.name}</li>));
 
-  for(let i = 0; i < e?.length; i++)
-  {
-    //Not Working
-    handleFileChosen(e[i]);
-  }
+    // Fill textarea with file(s) contents
+
+    for (let i = 0; i < e?.length; i++) {
+      //Not Working
+      handleFileChosen(e[i]);
+    }
   };
 
   const handleTextAreaChange = () => {
-     // @ts-ignore
-    setText(document.getElementById("editor").value)
-  }
+    // @ts-ignore
+    setText(document.getElementById("editor").value);
+  };
 
   const handleDeleteButton = () => {
-    
     setText("");
-  }
+  };
 
   const handleUploadClick = () => {
     // 👇 We redirect the click event onto the hidden input element
@@ -61,14 +55,22 @@ export const TextArea = (props: any) => {
   };
 
   return (
-    <><div>
-      {emojiPopout &&
-        <EmojiPickerPopout emojiPopout={emojiPopout} setEmojiPopout={setEmojiPopout} setIsDark={props.setIsDark} isDark={props.isDark} text={text} setText={setText} />}
-    </div><div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
+    <>
+      <div>
+        {emojiPopout && (
+          <EmojiPickerPopout
+            emojiPopout={emojiPopout}
+            setEmojiPopout={setEmojiPopout}
+            setIsDark={props.setIsDark}
+            isDark={props.isDark}
+            text={text}
+            setText={setText}
+          />
+        )}
+      </div>
+      <div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
         <div className="flex items-center justify-between border-b px-3 py-2 dark:border-gray-600">
-
           <div className="flex flex-wrap items-center divide-gray-200 dark:divide-gray-600 sm:divide-x">
-
             <div className="flex items-center space-x-1 sm:pr-4">
               <button
                 type="button"
@@ -94,13 +96,18 @@ export const TextArea = (props: any) => {
                 type="file"
                 ref={inputRef}
                 onChange={handleFileChange}
-                style={{ display: 'none' }}
-                multiple />
+                style={{ display: "none" }}
+                multiple
+              />
 
               <button
                 type="button"
-                className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={() => { setEmojiPopout(!emojiPopout); } }
+                className={`cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white ${
+                  emojiPopout && "bg-gray-300 dark:bg-gray-900"
+                }`}
+                onClick={() => {
+                  setEmojiPopout(!emojiPopout);
+                }}
               >
                 <svg
                   aria-hidden="true"
@@ -116,22 +123,26 @@ export const TextArea = (props: any) => {
                   ></path>
                 </svg>
               </button>
-            
             </div>
             <div className="flex flex-wrap items-center space-x-1 sm:pl-4">
-            <button onClick={handleDeleteButton} type="button" className="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-            <div className="h-[20px] w-[20px] pt-[2px]">
-              <center>
-            <BsFillTrashFill />
-            </center>
-            </div>
-
-                   </button>
+              <button
+                onClick={handleDeleteButton}
+                type="button"
+                className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                <div className="h-[20px] w-[20px] pt-[2px]">
+                  <center>
+                    <BsFillTrashFill />
+                  </center>
+                </div>
+              </button>
             </div>
           </div>
           <button
             type="button"
-            onClick={() => { setFullscreen(!fullscreen); } }
+            onClick={() => {
+              setFullscreen(!fullscreen);
+            }}
             data-tooltip-target="tooltip-fullscreen"
             className="cursor-pointer rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white sm:ml-auto"
           >
@@ -162,7 +173,6 @@ export const TextArea = (props: any) => {
 
         <Dropzone onDrop={handleFileChange}>
           <div className="rounded-b-lg bg-white px-4 py-2 dark:bg-gray-800">
-
             <textarea
               id="editor"
               className={` max-h-[60vh] min-h-[50px] w-full border-0 bg-white px-0 text-sm text-gray-800 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400`}
@@ -176,7 +186,7 @@ export const TextArea = (props: any) => {
           </div>
         </Dropzone>
         {files}
-      </div></>
+      </div>
+    </>
   );
 };
-

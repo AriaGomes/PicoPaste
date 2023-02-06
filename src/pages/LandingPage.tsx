@@ -7,7 +7,6 @@ import { useState } from "react";
 export const LandingPage = (props: any) => {
   const [codeToggle, setCodeToggle] = useState(false);
   const [lineToggle, setLineToggle] = useState(false);
-  
 
   const SubmitPaste = () => {
     //@ts-ignore
@@ -16,8 +15,6 @@ export const LandingPage = (props: any) => {
     let code: boolean = document.getElementById("code")?.checked;
     //@ts-ignore
     let line: boolean = document.getElementById("line")?.checked;
-
-    console.log(line);
 
     if (!paste) return console.log("Error getting text from the text area");
 
@@ -48,13 +45,13 @@ export const LandingPage = (props: any) => {
       <div>
         <center>
           {" "}
-          <p className="dark:text-white">PicoPaste</p>
+          <p className="title pt-10 text-5xl dark:text-white">PicoPaste</p>
         </center>
       </div>
       <div className="p-4 pt-20">
-        <TextArea setIsDark={props.setIsDark} isDark={props.isDark}/>
+        <TextArea setIsDark={props.setIsDark} isDark={props.isDark} />
         <div className="flex place-content-between ">
-          <Card>
+          <Card className="p-5">
             <div className="flex flex-col gap-4">
               <DefaultToggle
                 onChange={() => {
