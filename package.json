@@ -32,7 +32,9 @@
     "yarn": "^1.22.19"
   },
   "scripts": {
-    "start-server": "yarn --cwd backend start PORT=5000",
+    "docker": "yarn start-server:bg && yarn start-ui",
+    "start-server": "yarn --cwd backend start",
+    "start-server:bg": "yarn --cwd backend start &",
     "start-ui": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
